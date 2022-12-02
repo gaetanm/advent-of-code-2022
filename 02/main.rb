@@ -39,7 +39,7 @@ end
 
 puts p2_total_points(File.read(File.join(File.dirname(__FILE__), 'input.txt')))
 
-# PART 2
+### PART 2
 
 def p2_total_points_with_new_rule(input)
   p1_weapons = ["A", "B", "C"]
