@@ -7,24 +7,28 @@ class Test < Minitest::Test
   end
 
   def test_part1
-    assert part1(input) == "CMZ"
+    assert day5(input, :part1) == "CMZ"
+  end
+
+  def test_part2
+    assert day5(input, :part2) == "MCD"
   end
 end
 
-def part1(input)
+def day5(input, part)
   lines = input.split("\n")
-  instructions = instructions(lines)
   stacks = stacks(lines)
-  instructions.each { |instruction| apply_instructions(instruction, stacks) }
+  instructions(lines).each { |instruction| apply_instructions(instruction, stacks, part) }
   stacks.map(&:first).join('')
 end
 
-def apply_instructions(instruction, stacks)
+def apply_instructions(instruction, stacks, part)
   from = instruction[1] - 1
   to = instruction[2] - 1
   crates_to_take = stacks[from][0, instruction[0]]
+  crates_to_take.reverse! if part == :part1
   
-  stacks[to].unshift(crates_to_take.reverse).flatten!
+  stacks[to].unshift(crates_to_take).flatten!
   stacks[from].shift(instruction[0])
 end
 
@@ -57,4 +61,5 @@ def array_size(lines)
   lines.each { |line| return (line[-2].to_i) if line[1] == "1" }
 end
 
-puts part1(File.read(File.join(File.dirname(__FILE__), 'input.txt')))
+puts day5(File.read(File.join(File.dirname(__FILE__), 'input.txt')), :part1)
+puts day5(File.read(File.join(File.dirname(__FILE__), 'input.txt')), :part2)
