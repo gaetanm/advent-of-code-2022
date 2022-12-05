@@ -34,27 +34,22 @@ end
 
 def stacks(lines)
   stacks = Array.new(array_size(lines)) { Array.new }
-  lines.each do |line|
-    if line.include? "]"
-      i = 1; j = 0
-      until i > line.size do
-        stacks[j].push(line[i]) if line[i] != " "
-        i += 4; j += 1
-      end
-    end
-  end
+  lines.each { |line| fill_stack_with_crates(stacks, line) if line.include? "]" }
   stacks
 end
 
-def instructions(lines)
-  instructions = []
-  lines.each do |line| 
-    if line.include? "m"
-      split_line = line.split(" ")
-      instructions.push([split_line[1], split_line[3], split_line[5]].map(&:to_i))
-    end
+def fill_stack_with_crates(stacks, line)
+  cursor = 1; stack_nbr = 0
+  until cursor > line.size do
+    stacks[stack_nbr].push(line[cursor]) if line[cursor] != " ";cursor += 4; stack_nbr += 1
   end
-  instructions
+end
+  
+def instructions(lines)
+  lines.select { |line| line.include? "m" }.map do |line|
+    split_line = line.split(" ")
+    [split_line[1], split_line[3], split_line[5]].map(&:to_i)
+  end
 end
 
 def array_size(lines)
