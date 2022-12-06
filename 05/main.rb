@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'pp'
 
 class Test < Minitest::Test
   def input
